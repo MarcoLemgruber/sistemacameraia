@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection</title>
+    <script src="opencv.js"></script>
+</head>
+<body>
+    <h1>Object Detection</h1>
+    <video id="videoElement" autoplay></video>
+    <canvas id="canvas" width="640" height="480"></canvas>
+    <script>
+        let video = document.getElementById('videoElement');
+        let canvas = document.getElementById('canvas');
+        let context = canvas.getContext('2d');
+        let alarmPlayed = false;
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function (stream) {
+                video.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.error('Error accessing the camera:', error);
+            });
+
+        let cap = new cv.VideoCapture(video);
+        let net = cv.readNetFromDarknet('yolov8x.cfg', 'yolov8x.weights');
+        let layerNames = net.getLayerNames();
+        layerNames = layerNames.map(function (layerName) {
+            return layerName;
+        });
+
+        let outputLayer = layerNames[layerNames.length - 1];
+        let colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF'];
+
+        function detectObjects() {
+            let frame = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+            let dst = new cv.Mat(video.height, video.width, cv.CV_8UC4);
+            cap.read(frame);
+            let blob = cv.blobFromImage(frame, 1/255, new cv.Size(416, 416), [0,0,0], true, false);
+            net.setInput(blob);
+            let outs = net.forward(outputLayer);
+            for (let i = 0; i < outs.rows; i++) {
+                let confidence = outs.at(i, 5);
+                if (confidence > 0.5) {
+                    let centerX = outs.at(i, 0) * video.width;
+                    let centerY = outs.at(i, 1) * video.height;
+                    let width = outs.at(i, 2) * video.width;
+                    let height = outs.at(i, 3) * video.height;
+                    let x = centerX - width / 2;
+                    let y = centerY - height / 2;
+                    let color = colors[i % colors.length];
+                    cv.rectangle(dst, new cv.Point(x, y), new cv.Point(x + width, y + height), new cv.Scalar(255, 0, 0, 255), 2);
+                    cv.putText(dst, "Object " + i, new cv.Point(x, y - 5), cv.FONT_HERSHEY_SIMPLEX, 0.5, new cv.Scalar(255, 255, 255, 255), 1);
+                    if (!alarmPlayed) {
+                        new Audio('alarm.mp3').play();
+                        alarmPlayed = true;
+                    }
+                }
+            }
+            cv.imshow('canvas', dst);
+            frame.delete(); dst.delete(); blob.delete(); outs.delete();
+            setTimeout(detectObjects, 100);
+        }
+        detectObjects();
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                video.srcObject.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html>

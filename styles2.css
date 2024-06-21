@@ -1,0 +1,90 @@
+/* styles.css */
+html{
+    font-family: 'Montserrat', sans-serif;
+
+}
+body {
+    background-color: #A6A6A6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .container {
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  .input {
+    background-color: #f0f0f0;
+    border: 2px solid #e0e0e0;
+    border-radius: 0.25rem;
+    padding: 12px 0px;
+    margin-bottom: 20px;
+    width: calc(100% - 40px);
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+
+  }
+  
+  .button {
+    font-family: "Montserrat", sans-serif;
+    width: 100%;
+    font-weight: bold;
+    width: calc(100% - 40px);
+    margin-top: 20px;
+    padding: 12px 16px;
+    border-radius: 0.35rem;
+    background-color: #10B981;
+    color: white;
+    border: none;
+  }
+  
+  .button:hover{
+    background-color: #059669;
+    cursor: pointer;
+  }
+
+  .text {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .link {
+    color: #3B82F6;
+    text-decoration: none;
+  }
+  
+  .link:hover {
+    color: #2563EB;
+    text-decoration: underline;
+  }
+  
+  .user-icon {
+    font-size: 50px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+  
+  ::placeholder{
+    padding-left: 5px;
+  }

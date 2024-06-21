@@ -1,0 +1,77 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+}
+.dashboard {
+  display: flex;
+  height: 100%;
+}
+.sidebar {
+  width: 200px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px 0 0 10px;
+  display: flex;
+  flex-direction: column;
+}
+.camera-feed {
+  flex-grow: 1;
+  background-color: #fff;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
+  overflow: auto;
+}
+.camera {
+  background-color: #ddd;
+  aspect-ratio: 16 / 9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  border-radius: 5px;
+}
+.button {
+  font-family: "Montserrat", sans-serif;
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.button:hover {
+  background-color: #d0d0d0;
+}
+.button.exit {
+  background-color: #646363;
+  color: white;
+  margin-top: auto; /* Push the exit button to the bottom */
+}
+.button.exit:hover {
+  background-color: #aa1616;
+}
+#add{
+  background-color:#10B981 ;
+  color: white;
+}
+#add:hover{
+  background-color:#059669 ;
+}
+#del{
+  background-color:#da2e2e ;
+  color: white;
+}
+#del:hover{
+  background-color:#aa1616 ;
+}
